@@ -1,3 +1,5 @@
+import { Card } from '@/components/common/Card';
+import Layout from '@/components/layout';
 import { Inter } from '@next/font/google';
 import Head from 'next/head';
 
@@ -13,7 +15,13 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
-        <p className='text-red'>hii</p>
+        <Layout>
+          <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
+            {[...Array(20)].map((item, index) => (
+              <Card key={index} />
+            ))}
+          </div>
+        </Layout>
       </main>
     </>
   );
