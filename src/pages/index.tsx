@@ -7,7 +7,7 @@ import Head from 'next/head';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -31,4 +31,12 @@ export default function Home() {
       </main>
     </>
   );
+}
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`https://restcountries.com/v3.1/all`);
+  const data = await res.json();
+  console.log(data);
+  // Pass data to the page via props
+  return { props: { data } };
 }

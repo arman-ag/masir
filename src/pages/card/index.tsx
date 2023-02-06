@@ -1,14 +1,17 @@
 import { Button } from '@/components/common/Button';
 import Layout from '@/components/layout';
+import Link from 'next/link';
 import { BiArrowBack } from 'react-icons/bi';
 const Card = () => {
   return (
     <Layout>
       <section>
         <div className='mb-14  sm:ml-0 '>
-          <Button>
-            <BiArrowBack /> <span className='ml-2'>Back</span>
-          </Button>
+          <Link href='/'>
+            <Button>
+              <BiArrowBack /> <span className='ml-2'>Back</span>
+            </Button>
+          </Link>
         </div>
         <div className='flex  flex-wrap md:px-0 '>
           <img
@@ -16,7 +19,7 @@ const Card = () => {
             src='https://mdbootstrap.com/img/new/standard/nature/184.jpg'
             alt='Belgium flag'
           />
-          <div className=' flex flex-col '>
+          <div className=' flex flex-col dark:text-white'>
             <header>
               <h5 className=' font-bold text-2xl font- mb-2'>Belgium</h5>
             </header>

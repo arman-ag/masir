@@ -1,7 +1,7 @@
 export const Card = () => {
   return (
-    <div className='flex justify-center flex-wrap'>
-      <div className='rounded-lg shadow-lg bg-white max-w-xs '>
+    <div className='flex justify-center flex-wrap '>
+      <div className='rounded-lg shadow-lg bg-white max-w-xs  dark:bg-darkBlue-100 dark:text-white'>
         <a href='#!'>
           <img
             className='rounded-t-lg'

@@ -15,8 +15,7 @@ const useDarkMode = () => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('theme', theme);
     }
-  }, [theme]);
-  console.log(theme);
+  }, [theme, colorTheme]);
   return [colorTheme, setTheme];
 };
 
