@@ -1,11 +1,11 @@
 import { AiOutlineSearch } from 'react-icons/ai';
 export const SearchBar = () => {
   return (
-    <form className='sm:w-1/3'>
+    <form>
       <label className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
         Search
       </label>
-      <div className='relative'>
+      <div className='relative  shadow-md'>
         <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
           <AiOutlineSearch />
         </div>

@@ -19,9 +19,7 @@ export default function Home() {
       <main>
         <Layout>
           <div className='flex justify-between mb-7 relative '>
-            <div>
-              <SearchBar />
-            </div>
+            <SearchBar />
             <Select />
           </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
