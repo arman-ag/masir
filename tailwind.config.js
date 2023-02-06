@@ -7,6 +7,7 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
+
     minWidth: {
       l: "7rem"
     },
@@ -30,7 +31,13 @@ module.exports = {
       },
       white: 'hsl(0, 0%, 100%)'
     },
-    extend: {}
+    extend: {
+      maxWidth: {
+        ssm: "12.5rem",
+        msm: "15.5rem",
+        lsm: "20rem"
+      },
+    }
   },
   plugins: []
 };

@@ -10,13 +10,13 @@ const Card = () => {
             <BiArrowBack /> <span className='ml-2'>Back</span>
           </Button>
         </div>
-        <div className='flex  '>
+        <div className='flex flex-wrap '>
           <img
-            className=' max-w-md mr-16'
+            className='  mr-16 mb-6 max-w-lsm sm:max-w-lg'
             src='https://mdbootstrap.com/img/new/standard/nature/184.jpg'
             alt='Belgium flag'
           />
-          <div className='p-6 flex flex-col '>
+          <div className=' flex flex-col '>
             <header>
               <h5 className=' font-bold text-2xl font- mb-2'>Belgium</h5>
             </header>
@@ -42,13 +42,13 @@ const Card = () => {
                 <span>Belgie</span>
               </p>
             </div>
-            <div className='flex items-center'>
-              <span className='font-bold '>Boeder Countries:</span>
-              {[...Array(3)].map((item, key) => (
-                <Button style='ml-2' key={key}>
-                  France
-                </Button>
-              ))}
+            <div className='flex flex-wrap items-center sm:flex'>
+              <span className='font-bold mb-2 mr-2'>Boeder Countries:</span>
+              <div className='flex justify-center gap-3'>
+                {[...Array(3)].map((item, key) => (
+                  <Button key={key}>France</Button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
