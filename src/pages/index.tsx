@@ -1,5 +1,7 @@
 import { Card } from '@/components/common/Card';
 import Layout from '@/components/layout';
+import { SearchBar } from '@/components/mainPage/SearchBar';
+import { Select } from '@/components/mainPage/Select';
 import { Inter } from '@next/font/google';
 import Head from 'next/head';
 
@@ -16,6 +18,12 @@ export default function Home() {
       </Head>
       <main>
         <Layout>
+          <div className='flex justify-between mb-7 relative '>
+            <div>
+              <SearchBar />
+            </div>
+            <Select />
+          </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
             {[...Array(20)].map((item, index) => (
               <Card key={index} />

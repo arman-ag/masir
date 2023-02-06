@@ -5,14 +5,14 @@ const Card = () => {
   return (
     <Layout>
       <section>
-        <div className='mb-14'>
+        <div className='mb-14  sm:ml-0 '>
           <Button>
             <BiArrowBack /> <span className='ml-2'>Back</span>
           </Button>
         </div>
-        <div className='flex flex-wrap '>
+        <div className='flex  flex-wrap md:px-0 '>
           <img
-            className='  mr-16 mb-6 max-w-lsm sm:max-w-lg'
+            className='sm:mr-16 mb-6 max-w-full	 sm:max-w-lg'
             src='https://mdbootstrap.com/img/new/standard/nature/184.jpg'
             alt='Belgium flag'
           />
@@ -46,7 +46,9 @@ const Card = () => {
               <span className='font-bold mb-2 mr-2'>Boeder Countries:</span>
               <div className='flex justify-center gap-3'>
                 {[...Array(3)].map((item, key) => (
-                  <Button key={key}>France</Button>
+                  <Button style='min-w-sm' key={key}>
+                    France
+                  </Button>
                 ))}
               </div>
             </div>
