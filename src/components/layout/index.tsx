@@ -1,6 +1,7 @@
 import { Header } from './Header';
+import { layoutProps } from './types';
 
-const Layout = ({ children }) => {
+const Layout = ({ children }: layoutProps) => {
   return (
     <>
       <Header />

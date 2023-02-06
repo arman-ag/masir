@@ -7,6 +7,12 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
+    minWidth: {
+      l: "7rem"
+    },
+    minHeight: {
+      l: "5rem"
+    },
     fontWeight: {
       normal: 300,
       bold: 600,
