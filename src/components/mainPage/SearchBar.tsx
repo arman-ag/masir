@@ -1,15 +1,24 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-export const SearchBar = () => {
+export const SearchBar = ({ setSearchWord }) => {
+  const textEntry = (e) => {
+    setSearchWord(e.target.value);
+  };
   return (
-    <form>
+    <form
+    // onSubmit={send}
+    >
       <label className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
         Search
       </label>
       <div className='relative dark:text-white  shadow-md'>
-        <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
+        <button
+          type='submit'
+          className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'
+        >
           <AiOutlineSearch />
-        </div>
+        </button>
         <input
+          onChange={textEntry}
           type='search'
           id='default-search'
           className='block w-full p-4 pl-10 text-sm text-gray-900  rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600  dark:bg-darkBlue-100 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'

@@ -2,10 +2,41 @@ import { Card } from '@/components/common/Card';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
+import { countryDetailsType } from '@/types/countryTypes';
 import { dataType } from '@/types/mainTypes';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { api } from './api';
 
 export default function Home({ data: countries }: dataType) {
+  const [searchWord, setSearchWord] = useState<string>('');
+  const [searchResult, setSearchResult] = useState<countryDetailsType>();
+  useEffect(() => {
+    if (searchWord?.length != 0) {
+      const searchRequest = async () => {
+        try {
+          const res = await api.getSingleDetail(searchWord);
+          const result: countryDetailsType = res?.data[0];
+          setSearchResult(result);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      searchRequest();
+    }
+  }, []);
+  useEffect(() => {
+    const searchWordArray = searchWord.split('');
+    const searchResult = countries.filter((item) => {
+      const countryNameArray = item.name.common.split('');
+      return searchWordArray.every((searchLetter) =>
+        countryNameArray.includes(searchLetter)
+      );
+    });
+    console.log(searchResult);
+  }, [searchWord]);
+
+  console.log(searchResult);
   return (
     <>
       <Head>
@@ -17,7 +48,7 @@ export default function Home({ data: countries }: dataType) {
       <main>
         <Layout>
           <div className='flex flex-col justify-between mb-7 relative flex-wrap sm:flex-row'>
-            <SearchBar />
+            <SearchBar setSearchWord={setSearchWord} />
             <Select />
           </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
