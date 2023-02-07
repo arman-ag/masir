@@ -1,20 +1,17 @@
 import { Listbox, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { BsCheck } from 'react-icons/bs';
 import { IoIosArrowDown } from 'react-icons/io';
 
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
+const region = [
+  { name: 'Africa' },
+  { name: 'Americas' },
+  { name: 'Asia' },
+  { name: 'Europe' },
+  { name: 'Oceania' },
 ];
 
-export const Select = () => {
-  const [selected, setSelected] = useState(people[0]);
-
+export const Select = ({ selected, setSelected }) => {
   return (
     <div className='w-2/4 mt-4 sm:w-1/6 relative  sm:mt-0 '>
       <Listbox value={selected} onChange={setSelected}>
@@ -32,15 +29,15 @@ export const Select = () => {
             leaveTo='opacity-0'
           >
             <Listbox.Options className=' dark:bg-darkBlue-100 dark:text-white absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-              {people.map((person, personIdx) => (
+              {region.map((item, key) => (
                 <Listbox.Option
-                  key={personIdx}
+                  key={key}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    `relative  cursor-pointer select-none py-2 pl-10 pr-4 ${
                       active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
                     }`
                   }
-                  value={person}
+                  value={item}
                 >
                   {({ selected }) => (
                     <>
@@ -49,7 +46,7 @@ export const Select = () => {
                           selected ? 'font-medium' : 'font-normal'
                         }`}
                       >
-                        {person.name}
+                        {item.name}
                       </span>
                       {selected ? (
                         <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600'>

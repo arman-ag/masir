@@ -5,26 +5,44 @@ import { Select } from '@/components/mainPage/Select';
 import { countryDetailsType } from '@/types/countryTypes';
 import { dataType } from '@/types/mainTypes';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { api } from './api';
 
 export default function Home({ data: countries }: dataType) {
+  // const [countries, setCountries] = useState(data);
+  console.log({ countries });
   const [searchWord, setSearchWord] = useState<string>('');
   const [searchResult, setSearchResult] = useState<countryDetailsType>();
+  const router = useRouter();
+  console.log(router);
+  //region select
+  const [selected, setSelected] = useState({ name: 'Filter by Region' });
+  console.log(selected);
+  //get filter data
+  // useEffect(() => {
+  //   if (Object.keys(router.query)) {
+  //     const searchRequest = async () => {
+  //       try {
+  //         if (router?.query?.region) {
+  //           const res = await api.getFilterResult(router?.query?.region);
+  //           const result: countryDetailsType = res?.data;
+  //           setCountries(result);
+  //         }
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     };
+  //     searchRequest();
+  //   }
+  // }, [router.query]);
+
   useEffect(() => {
-    if (searchWord?.length != 0) {
-      const searchRequest = async () => {
-        try {
-          const res = await api.getSingleDetail(searchWord);
-          const result: countryDetailsType = res?.data[0];
-          setSearchResult(result);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      searchRequest();
-    }
-  }, []);
+    selected.name !== 'Filter by Region' &&
+      router.push(`?region=${selected?.name}`);
+  }, [selected]);
+
+  console.log(router.query);
+  //search throw all receive data
   useEffect(() => {
     const searchWordArray = searchWord.split('');
     const searchResult = countries.filter((item) => {
@@ -36,7 +54,6 @@ export default function Home({ data: countries }: dataType) {
     console.log(searchResult);
   }, [searchWord]);
 
-  console.log(searchResult);
   return (
     <>
       <Head>
@@ -49,10 +66,10 @@ export default function Home({ data: countries }: dataType) {
         <Layout>
           <div className='flex flex-col justify-between mb-7 relative flex-wrap sm:flex-row'>
             <SearchBar setSearchWord={setSearchWord} />
-            <Select />
+            <Select selected={selected} setSelected={setSelected} />
           </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
-            {countries.map((item) => {
+            {countries?.map((item) => {
               return (
                 <Card
                   region={item?.region}
@@ -71,8 +88,17 @@ export default function Home({ data: countries }: dataType) {
     </>
   );
 }
-export async function getServerSideProps() {
-  const res = await fetch(`https://restcountries.com/v3.1/all`);
-  const data = await res.json();
-  return { props: { data } };
+export async function getServerSideProps({ query }) {
+  console.log(query);
+  const baseUrl = 'https://restcountries.com/v3.1';
+  if (query.region) {
+    const filterItem = query.region;
+    const res = await fetch(`${baseUrl}/region/${filterItem}`);
+    const data = await res.json();
+    return { props: { data } };
+  } else {
+    const res = await fetch(`${baseUrl}/all`);
+    const data = await res.json();
+    return { props: { data } };
+  }
 }
