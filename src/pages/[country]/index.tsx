@@ -1,12 +1,12 @@
 import { Button } from '@/components/common/Button';
 import { Loading } from '@/components/common/Loading';
 import Layout from '@/components/layout';
+import { countryDetailsType } from '@/types/countryTypes';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 import { api } from '../api';
-import { countryDetailsType } from './types';
 const Card = () => {
   const [countryDetail, setCountryDetail] = useState<countryDetailsType>();
   const [loading, setLoading] = useState(true);

@@ -2,8 +2,8 @@ import { Card } from '@/components/common/Card';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
+import { dataType } from '@/types/mainTypes';
 import Head from 'next/head';
-import { dataType } from './types';
 
 export default function Home({ data: countries }: dataType) {
   return (
