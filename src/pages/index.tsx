@@ -1,4 +1,5 @@
 import { Card } from '@/components/common/Card';
+import { Loading } from '@/components/common/Loading';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
@@ -7,41 +8,44 @@ import { dataType } from '@/types/mainTypes';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { api } from './api';
 
 export default function Home({ data: countries }: dataType) {
-  // const [countries, setCountries] = useState(data);
-  console.log({ countries });
+  const [filterCountries, setFilterCountries] = useState<dataType>();
+  // console.log({ countries });
+  const [filterOn, SetFilterOn] = useState(false);
   const [searchWord, setSearchWord] = useState<string>('');
   const [searchResult, setSearchResult] = useState<countryDetailsType>();
   const router = useRouter();
-  console.log(router);
   //region select
   const [selected, setSelected] = useState({ name: 'Filter by Region' });
-  console.log(selected);
-  //get filter data
-  // useEffect(() => {
-  //   if (Object.keys(router.query)) {
-  //     const searchRequest = async () => {
-  //       try {
-  //         if (router?.query?.region) {
-  //           const res = await api.getFilterResult(router?.query?.region);
-  //           const result: countryDetailsType = res?.data;
-  //           setCountries(result);
-  //         }
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     searchRequest();
-  //   }
-  // }, [router.query]);
 
+  // get filter data
   useEffect(() => {
-    selected.name !== 'Filter by Region' &&
+    if (Object.keys(router.query)) {
+      const searchRequest = async () => {
+        try {
+          if (router?.query?.region) {
+            const res = await api.getFilterResult(router?.query?.region);
+            const result: dataType = res?.data;
+            setFilterCountries(result);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      searchRequest();
+    }
+  }, [router.query]);
+
+  //add filter query string
+  useEffect(() => {
+    if (selected.name !== 'Filter by Region') {
       router.push(`?region=${selected?.name}`);
+      SetFilterOn(true);
+    }
   }, [selected]);
 
-  console.log(router.query);
   //search throw all receive data
   useEffect(() => {
     const searchWordArray = searchWord.split('');
@@ -53,6 +57,14 @@ export default function Home({ data: countries }: dataType) {
     });
     console.log(searchResult);
   }, [searchWord]);
+  //sort
+  // useEffect(() => {
+  //   const numAscending = [...countries].sort(
+  //     (a, b) => a.name.common > b.name.common
+  //   );
+  //   console.log('numAscending', numAscending);
+
+  // }, []);
 
   return (
     <>
@@ -69,36 +81,48 @@ export default function Home({ data: countries }: dataType) {
             <Select selected={selected} setSelected={setSelected} />
           </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
-            {countries?.map((item) => {
-              return (
-                <Card
-                  region={item?.region}
-                  capital={item?.capital}
-                  alt={item?.flags?.alt}
-                  country={item?.name.common}
-                  key={item?.area}
-                  flag={item.flags.svg}
-                  population={item.population}
-                />
-              );
-            })}
+            {filterOn ? (
+              filterCountries?.length === 0 ? (
+                <Loading />
+              ) : (
+                filterCountries?.map((item) => {
+                  return (
+                    <Card
+                      region={item?.region}
+                      capital={item?.capital}
+                      alt={item?.flags?.alt}
+                      country={item?.name.common}
+                      key={item?.area}
+                      flag={item.flags.svg}
+                      population={item.population}
+                    />
+                  );
+                })
+              )
+            ) : (
+              countries?.map((item) => {
+                return (
+                  <Card
+                    region={item?.region}
+                    capital={item?.capital}
+                    alt={item?.flags?.alt}
+                    country={item?.name.common}
+                    key={item?.area}
+                    flag={item.flags.svg}
+                    population={item.population}
+                  />
+                );
+              })
+            )}
           </div>
         </Layout>
       </main>
     </>
   );
 }
-export async function getServerSideProps({ query }) {
-  console.log(query);
+export async function getServerSideProps() {
   const baseUrl = 'https://restcountries.com/v3.1';
-  if (query.region) {
-    const filterItem = query.region;
-    const res = await fetch(`${baseUrl}/region/${filterItem}`);
-    const data = await res.json();
-    return { props: { data } };
-  } else {
-    const res = await fetch(`${baseUrl}/all`);
-    const data = await res.json();
-    return { props: { data } };
-  }
+  const res = await fetch(`${baseUrl}/all`);
+  const data = await res.json();
+  return { props: { data } };
 }

@@ -1,6 +1,7 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-export const SearchBar = ({ setSearchWord }) => {
-  const textEntry = (e) => {
+import { searchBarPropsType } from './types';
+export const SearchBar = ({ setSearchWord }: searchBarPropsType) => {
+  const textEntry = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWord(e.target.value);
   };
   return (

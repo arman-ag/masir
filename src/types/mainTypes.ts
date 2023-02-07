@@ -1,3 +1,8 @@
+export interface queryType {
+  query: {
+    region: string;
+  };
+}
 export interface dataType {
   data: {
     name: Name;

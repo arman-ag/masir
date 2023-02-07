@@ -2,6 +2,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { BsCheck } from 'react-icons/bs';
 import { IoIosArrowDown } from 'react-icons/io';
+import { selectPropsType } from './types';
 
 const region = [
   { name: 'Africa' },
@@ -11,7 +12,7 @@ const region = [
   { name: 'Oceania' },
 ];
 
-export const Select = ({ selected, setSelected }) => {
+export const Select = ({ selected, setSelected }: selectPropsType) => {
   return (
     <div className='w-2/4 mt-4 sm:w-1/6 relative  sm:mt-0 '>
       <Listbox value={selected} onChange={setSelected}>

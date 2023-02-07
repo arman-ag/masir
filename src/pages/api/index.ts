@@ -6,7 +6,11 @@ const getSingleDetail = (country: string | string[]) => {
 const getFilterResult = (filterItem: string | string[]) => {
   return axios.get(`${baseUrl}/region/${filterItem}`);
 };
+const getAllCountries = () => {
+  return axios.get(`${baseUrl}/all`);
+};
 export const api = {
   getSingleDetail,
   getFilterResult,
+  getAllCountries,
 };
