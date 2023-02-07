@@ -2,12 +2,10 @@ import { Card } from '@/components/common/Card';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
-import { Inter } from '@next/font/google';
 import Head from 'next/head';
+import { dataType } from './types';
 
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Home({ data }) {
+export default function Home({ data: countries }: dataType) {
   return (
     <>
       <Head>
@@ -23,9 +21,19 @@ export default function Home({ data }) {
             <Select />
           </div>
           <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
-            {[...Array(20)].map((item, index) => (
-              <Card key={index} />
-            ))}
+            {countries.map((item) => {
+              return (
+                <Card
+                  region={item?.region}
+                  capital={item?.capital}
+                  alt={item?.flags?.alt}
+                  country={item?.name.common}
+                  key={item?.area}
+                  flag={item.flags.svg}
+                  population={item.population}
+                />
+              );
+            })}
           </div>
         </Layout>
       </main>
@@ -33,10 +41,7 @@ export default function Home({ data }) {
   );
 }
 export async function getServerSideProps() {
-  // Fetch data from external API
   const res = await fetch(`https://restcountries.com/v3.1/all`);
   const data = await res.json();
-  console.log(data);
-  // Pass data to the page via props
   return { props: { data } };
 }
