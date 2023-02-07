@@ -16,7 +16,7 @@ export default function Home({ data: countries }: dataType) {
       </Head>
       <main>
         <Layout>
-          <div className='flex justify-between mb-7 relative '>
+          <div className='flex flex-col justify-between mb-7 relative flex-wrap sm:flex-row'>
             <SearchBar />
             <Select />
           </div>
