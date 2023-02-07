@@ -72,23 +72,23 @@ const Card = ({ countryDetail }: countryDetailsType) => {
               </header>
               <div className='leading-10	mb-10	'>
                 <p>
-                  <span className='font-bold '>Native Name:</span>
+                  <span className='font-bold mr-1 '>Native Name:</span>
                   <span>{nativeLang}</span>
                 </p>
                 <p>
-                  <span className='font-bold '>Population:</span>
+                  <span className='font-bold mr-1 '>Population:</span>
                   <span>{countryDetail?.population}</span>
                 </p>{' '}
                 <p>
-                  <span className='font-bold '>Region:</span>
+                  <span className='font-bold mr-1 '>Region:</span>
                   <span>{countryDetail?.region}</span>
                 </p>{' '}
                 <p>
-                  <span className='font-bold '>Sub Region:</span>
+                  <span className='font-bold mr-1 '>Sub Region:</span>
                   <span>{countryDetail?.subregion}</span>
                 </p>{' '}
                 <p>
-                  <span className='font-bold '>Capital:</span>
+                  <span className='font-bold mr-1 '>Capital:</span>
                   <span>{countryDetail?.capital}</span>
                 </p>
               </div>
@@ -118,7 +118,7 @@ export async function getServerSideProps({ query }: countryQueryType) {
   if (query.country) {
     const queryItem = query.country;
     const res = await fetch(`${baseUrl}/name/${queryItem}`);
-    const data = await res.json();
+    const data = await res?.json();
     const countryDetail = data[0];
     return { props: { countryDetail } };
   }
