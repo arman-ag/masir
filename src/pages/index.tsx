@@ -4,14 +4,14 @@ import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
 import { countryDetailsType } from '@/types/countryTypes';
-import { dataType } from '@/types/mainTypes';
+import { dataPropsType, dataType } from '@/types/mainTypes';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { api } from './api';
 
-export default function Home({ data: countries }: dataType) {
-  const [filterCountries, setFilterCountries] = useState<dataType>();
+export default function Home({ data: countries }: dataPropsType) {
+  const [filterCountries, setFilterCountries] = useState<dataType[]>();
   // console.log({ countries });
   const [filterOn, SetFilterOn] = useState(false);
   const [searchWord, setSearchWord] = useState<string>('');
@@ -27,7 +27,7 @@ export default function Home({ data: countries }: dataType) {
         try {
           if (router?.query?.region) {
             const res = await api.getFilterResult(router?.query?.region);
-            const result: dataType = res?.data;
+            const result: dataType[] = res?.data;
             setFilterCountries(result);
           }
         } catch (err) {
@@ -41,7 +41,7 @@ export default function Home({ data: countries }: dataType) {
   //add filter query string
   useEffect(() => {
     if (selected.name !== 'Filter by Region') {
-      router.push(`?region=${selected?.name}`);
+      router.push(`?region=${selected?.name}`, undefined, { shallow: true });
       SetFilterOn(true);
     }
   }, [selected]);

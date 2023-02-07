@@ -3,46 +3,46 @@ export interface queryType {
     region: string;
   };
 }
-export interface dataType {
-  data: {
-    name: Name;
-    tld: string[];
-    cca2: string;
-    ccn3: string;
-    cca3: string;
-    cioc: string;
-    independent: boolean;
-    status: string;
-    unMember: boolean;
-    currencies: Currencies;
-    idd: Idd;
-    capital: string[];
-    altSpellings: string[];
-    region: string;
-    subregion: string;
-    languages: Languages;
-    translations: { [key: string]: Translation };
-    latlng: number[];
-    landlocked: boolean;
-    borders: string[];
-    area: number;
-    demonyms: Demonyms;
-    flag: string;
-    maps: Maps;
-    population: number;
-    gini: Gini;
-    fifa: string;
-    car: Car;
-    timezones: string[];
-    continents: string[];
-    flags: Flags;
-    coatOfArms: CoatOfArms;
-    startOfWeek: string;
-    capitalInfo: CapitalInfo;
-    postalCode: PostalCode;
-  }[];
+export interface dataPropsType {
+  data: dataType[];
 }
-
+export interface dataType {
+  name: Name;
+  tld: string[];
+  cca2: string;
+  ccn3: string;
+  cca3: string;
+  cioc: string;
+  independent: boolean;
+  status: string;
+  unMember: boolean;
+  currencies: Currencies;
+  idd: Idd;
+  capital: string[];
+  altSpellings: string[];
+  region: string;
+  subregion: string;
+  languages: Languages;
+  translations: { [key: string]: Translation };
+  latlng: number[];
+  landlocked: boolean;
+  borders: string[];
+  area: number;
+  demonyms: Demonyms;
+  flag: string;
+  maps: Maps;
+  population: number;
+  gini: Gini;
+  fifa: string;
+  car: Car;
+  timezones: string[];
+  continents: string[];
+  flags: Flags;
+  coatOfArms: CoatOfArms;
+  startOfWeek: string;
+  capitalInfo: CapitalInfo;
+  postalCode: PostalCode;
+}
 export interface CapitalInfo {
   latlng: number[];
 }
