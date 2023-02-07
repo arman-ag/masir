@@ -1,6 +1,7 @@
 import { Button } from '@/components/common/Button';
 import Layout from '@/components/layout';
 import { countryDetailsType, countryQueryType } from '@/types/countryTypes';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -56,7 +57,9 @@ const Card = ({ countryDetail }: countryDetailsType) => {
             </Link>
           </div>
           <div className='flex  flex-wrap md:px-0 '>
-            <img
+            <Image
+              width={500}
+              height={200}
               className='sm:mr-16 mb-6 max-w-full	 sm:max-w-lg'
               src={countryDetail?.flags?.svg}
               alt={countryDetail?.flags?.alt}

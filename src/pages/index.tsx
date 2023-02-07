@@ -48,14 +48,15 @@ export default function Home({ data: countries }: dataPropsType) {
 
   //search throw all receive data
   useEffect(() => {
-    const searchWordArray = searchWord.split('');
+    const searchWordArray = searchWord.toLowerCase().split('');
     const searchResult = countries.filter((item) => {
-      const countryNameArray = item.name.common.split('');
+      const countryNameArray = item.name.common.toLowerCase().split('');
       return searchWordArray.every((searchLetter) =>
         countryNameArray.includes(searchLetter)
       );
     });
-    console.log(searchResult);
+    setFilterCountries(searchResult);
+    SetFilterOn(true);
   }, [searchWord]);
   //sort
   // useEffect(() => {
@@ -76,23 +77,23 @@ export default function Home({ data: countries }: dataPropsType) {
       </Head>
       <main>
         <Layout>
-          <div className='flex flex-col justify-between mb-7 relative flex-wrap sm:flex-row'>
+          <div className='flex flex-col justify-center sm:justify-between mb-7 relative flex-wrap sm:flex-row'>
             <SearchBar setSearchWord={setSearchWord} />
             <Select selected={selected} setSelected={setSelected} />
           </div>
-          <div className=' flex justify-around flex-wrap align-baseline  gap-y-12'>
+          <div className=' flex justify-center sm:justify-between flex-wrap align-baseline  gap-y-12'>
             {filterOn ? (
               filterCountries?.length === 0 ? (
                 <Loading />
               ) : (
-                filterCountries?.map((item) => {
+                filterCountries?.map((item, index) => {
                   return (
                     <Card
                       region={item?.region}
                       capital={item?.capital}
                       alt={item?.flags?.alt}
                       country={item?.name.common}
-                      key={item?.area}
+                      key={index}
                       flag={item.flags.svg}
                       population={item.population}
                     />
@@ -100,14 +101,14 @@ export default function Home({ data: countries }: dataPropsType) {
                 })
               )
             ) : (
-              countries?.map((item) => {
+              countries?.map((item, index) => {
                 return (
                   <Card
                     region={item?.region}
                     capital={item?.capital}
                     alt={item?.flags?.alt}
                     country={item?.name.common}
-                    key={item?.area}
+                    key={index}
                     flag={item.flags.svg}
                     population={item.population}
                   />
