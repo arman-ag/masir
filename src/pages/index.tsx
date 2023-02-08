@@ -13,7 +13,6 @@ const Loading = dynamic(() => import('@/components/common/Loading'));
 
 export default function Home({ data: countries }: dataPropsType) {
   const [filterCountries, setFilterCountries] = useState<dataType[]>();
-  const [arrayAmount, setArrayAmount] = useState(16);
   const [filterOn, SetFilterOn] = useState(false);
   const [searchWord, setSearchWord] = useState<string>('');
   const [sliceArray, setSliceArray] = useState<dataType[]>();
@@ -68,11 +67,8 @@ export default function Home({ data: countries }: dataPropsType) {
 
   //pagination
   const pagination = (pageNumber: number) => {
-    // const amount = arrayAmount + 40;
-    // setArrayAmount(amount);
     setSliceArray(countries.slice((pageNumber - 1) * 40, pageNumber * 40));
   };
-  console.log(filterOn);
   const paginationButton = [7, 6, 5, 4, 3, 2, 1];
   return (
     <>
