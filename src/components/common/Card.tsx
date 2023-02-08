@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cardProps } from './types';
 
-export const Card = ({
+const Card = ({
   country,
   population,
   region,
@@ -44,3 +44,4 @@ export const Card = ({
     </Link>
   );
 };
+export default Card;

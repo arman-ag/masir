@@ -12,6 +12,7 @@ const Card = ({ countryDetail }: countryDetailsType) => {
   const [nativeLang, setNativeLang] = useState<string>();
   const [borderCountries, setBorderCountries] = useState();
   const router = useRouter();
+  console.log(countryDetail);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -116,10 +117,27 @@ export default Card;
 export async function getServerSideProps({ query }: countryQueryType) {
   const baseUrl = 'https://restcountries.com/v3.1';
   if (query.country) {
-    const queryItem = query.country;
-    const res = await fetch(`${baseUrl}/name/${queryItem}`);
-    const data = await res?.json();
-    const countryDetail = data[0];
-    return { props: { countryDetail } };
+    try {
+      const queryItem = query.country;
+      const res = await fetch(`${baseUrl}/name/${queryItem}`);
+      const data = await res?.json();
+      const countryDetail = data[0];
+      if (res.status === 404) {
+        return {
+          redirect: {
+            destination: '/404',
+          },
+        };
+      } else {
+        return { props: { countryDetail } };
+      }
+    } catch (error) {
+      console.log('error');
+      return {
+        redirect: {
+          destination: '/500',
+        },
+      };
+    }
   }
 }

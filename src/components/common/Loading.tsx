@@ -1,4 +1,4 @@
-export const Loading = () => {
+const Loading = () => {
   return (
     <div className='h-screen flex justify-center items-center  dark:bg-darkBlue-200 '>
       <svg
@@ -21,3 +21,4 @@ export const Loading = () => {
     </div>
   );
 };
+export default Loading;

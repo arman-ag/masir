@@ -1,5 +1,8 @@
 // @ts-nocheck
+import Image from 'next/image';
 import React from 'react';
+import error from '../../../public/images/error.png';
+
 class ErrorBoundary extends React.Component {
   constructor(props: React.ReactNode) {
     super(props);
@@ -21,14 +24,9 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div>
-          <h2>Oops, there is an error!</h2>
-          <button
-            type='button'
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Try again?
-          </button>
+        <div className=' flex justify-center items-center flex-col grow 	h-screen'>
+          <Image alt='404 image' src={error} className='w-72 ' />
+          <h2 className='text-5xl mt-16 text-center'>something went wrong</h2>
         </div>
       );
     }

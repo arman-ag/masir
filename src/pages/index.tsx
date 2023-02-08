@@ -1,14 +1,15 @@
-import { Card } from '@/components/common/Card';
-import { Loading } from '@/components/common/Loading';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
 import { countryDetailsType } from '@/types/countryTypes';
 import { dataPropsType, dataType } from '@/types/mainTypes';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { api } from './api';
+const Card = dynamic(() => import('@/components/common/Card'));
+const Loading = dynamic(() => import('@/components/common/Loading'));
 
 export default function Home({ data: countries }: dataPropsType) {
   const [filterCountries, setFilterCountries] = useState<dataType[]>();
@@ -123,7 +124,24 @@ export default function Home({ data: countries }: dataPropsType) {
 }
 export async function getServerSideProps() {
   const baseUrl = 'https://restcountries.com/v3.1';
-  const res = await fetch(`${baseUrl}/all`);
-  const data = await res.json();
-  return { props: { data } };
+  try {
+    const res = await fetch(`${baseUrl}/all`);
+    const data = await res.json();
+    if (res.status === 404) {
+      return {
+        redirect: {
+          destination: '/404',
+        },
+      };
+    } else {
+      return { props: { data } };
+    }
+  } catch (err) {
+    console.log('error');
+    return {
+      redirect: {
+        destination: '/500',
+      },
+    };
+  }
 }

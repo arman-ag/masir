@@ -5,7 +5,7 @@ const notFound = () => {
   return (
     <div className='flex justify-center items-center flex-col grow 	h-screen'>
       <Image alt='404 image' src={notFoundImage} className='w-56 ' />
-      <h2 className='text-5xl mt-16 '>Page not found</h2>
+      <h2 className='text-5xl mt-16 text-center '>Page not found</h2>
     </div>
   );
 };
