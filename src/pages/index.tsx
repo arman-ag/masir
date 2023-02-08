@@ -90,11 +90,12 @@ export default function Home({ data: countries }: dataPropsType) {
                 <Loading />
               ) : (
                 filterCountries?.map((item, index) => {
+                  console.log(item);
                   return (
                     <Card
                       region={item?.region}
                       capital={item?.capital}
-                      alt={item?.flags?.alt}
+                      alt={`${item?.name.common} flag`}
                       country={item?.name.common}
                       key={index}
                       flag={item.flags.svg}
@@ -105,11 +106,12 @@ export default function Home({ data: countries }: dataPropsType) {
               )
             ) : (
               sliceArray?.map((item, index) => {
+                console.log(item);
                 return (
                   <Card
                     region={item?.region}
                     capital={item?.capital}
-                    alt={item?.flags?.alt}
+                    alt={`${item?.name.common} flag`}
                     country={item?.name.common}
                     key={index}
                     flag={item.flags.svg}

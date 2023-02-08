@@ -3,41 +3,13 @@ import Layout from '@/components/layout';
 import { countryDetailsType, countryQueryType } from '@/types/countryTypes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 const Card = ({ countryDetail }: countryDetailsType) => {
-  // const [countryDetail, setCountryDetail] = useState<countryDetailsType>();
-  // const [loading, setLoading] = useState(true);
   const [nativeLang, setNativeLang] = useState<string>();
-  const [borderCountries, setBorderCountries] = useState();
-  const router = useRouter();
+
   console.log(countryDetail);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       //get all countries
-  //       const res = await api.getAllCountries();
-  //       const result = res.data;
-
-  //       const borderCountries = countryDetail?.borders.map(
-  //         (countryShortName) => {
-  //           return result?.filter((item) => {
-  //             console.log(countryShortName.toLocaleLowerCase());
-  //             return item.name.common
-  //               .toLowerCase()
-  //               .include(countryShortName.toLocaleLowerCase());
-  //           });
-  //         }
-  //       );
-  //       setBorderCountries('borderCountries', borderCountries);
-  //     } catch (err) {
-  //       // console.log(err);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     if (countryDetail) {
       const countryName: any = countryDetail?.name?.nativeName;
@@ -45,6 +17,16 @@ const Card = ({ countryDetail }: countryDetailsType) => {
       setNativeLang(native);
     }
   }, [countryDetail]);
+  const addComma = () => {
+    const arrayLang = Object.values(countryDetail?.languages);
+    return arrayLang.map((item, index) => {
+      if (index + 1 !== arrayLang.length) {
+        return item + ', ';
+      }
+      return item;
+    });
+  };
+  console.log(Object.values(countryDetail.currencies)[0].name);
 
   return (
     <>
@@ -57,7 +39,7 @@ const Card = ({ countryDetail }: countryDetailsType) => {
               </Button>
             </Link>
           </div>
-          <div className='flex  flex-wrap md:px-0 '>
+          <div className='flex items-center flex-wrap md:justify-start sm:px-0 sm:justify-center '>
             <Image
               width={500}
               height={200}
@@ -65,34 +47,53 @@ const Card = ({ countryDetail }: countryDetailsType) => {
               src={countryDetail?.flags?.svg}
               alt={countryDetail?.flags?.alt}
             />
-            <div className=' flex flex-col dark:text-white'>
+            <div className=' flex flex-col dark:text-white sm:mt-3'>
               <header>
-                <h5 className=' font-bold text-2xl font- mb-2'>
+                <h5 className=' font-bold text-2xl   '>
                   {countryDetail?.name?.common}
                 </h5>
               </header>
-              <div className='leading-10	mb-10	'>
-                <p>
-                  <span className='font-bold mr-1 '>Native Name:</span>
-                  <span>{nativeLang}</span>
-                </p>
-                <p>
-                  <span className='font-bold mr-1 '>Population:</span>
-                  <span>{countryDetail?.population}</span>
-                </p>{' '}
-                <p>
-                  <span className='font-bold mr-1 '>Region:</span>
-                  <span>{countryDetail?.region}</span>
-                </p>{' '}
-                <p>
-                  <span className='font-bold mr-1 '>Sub Region:</span>
-                  <span>{countryDetail?.subregion}</span>
-                </p>{' '}
-                <p>
-                  <span className='font-bold mr-1 '>Capital:</span>
-                  <span>{countryDetail?.capital}</span>
-                </p>
+              <div className=' flex justify-between mt-4 gap-x-40 flex-wrap'>
+                <div className='leading-9	mb-8	'>
+                  <p>
+                    <span className='font-bold mr-1 '>Native Name:</span>
+                    <span>{nativeLang}</span>
+                  </p>
+                  <p>
+                    <span className='font-bold mr-1 '>Population:</span>
+                    <span>{countryDetail?.population}</span>
+                  </p>{' '}
+                  <p>
+                    <span className='font-bold mr-1 '>Region:</span>
+                    <span>{countryDetail?.region}</span>
+                  </p>{' '}
+                  <p>
+                    <span className='font-bold mr-1 '>Sub Region:</span>
+                    <span>{countryDetail?.subregion}</span>
+                  </p>{' '}
+                  <p>
+                    <span className='font-bold mr-1 '>Capital:</span>
+                    <span>{countryDetail?.capital}</span>
+                  </p>
+                </div>
+                <div className='leading-9	mb-8	'>
+                  <p>
+                    <span className='font-bold mr-1 '>Top Level Domain:</span>
+                    <span>{countryDetail.cca2}</span>
+                  </p>
+                  <p>
+                    <span className='font-bold mr-1 '>Currencies:</span>
+                    <span>
+                      {Object.values(countryDetail.currencies)[0].name}
+                    </span>
+                  </p>{' '}
+                  <p>
+                    <span className='font-bold mr-1 '>Language:</span>
+                    <span>{addComma()}</span>
+                  </p>{' '}
+                </div>
               </div>
+
               <div className='flex flex-wrap items-center  sm:flex'>
                 <span className='font-bold mb-2 mr-2 self-center'>
                   Border Countries:
@@ -112,8 +113,8 @@ const Card = ({ countryDetail }: countryDetailsType) => {
     </>
   );
 };
-
 export default Card;
+
 export async function getServerSideProps({ query }: countryQueryType) {
   const baseUrl = 'https://restcountries.com/v3.1';
   if (query.country) {
