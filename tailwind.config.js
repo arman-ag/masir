@@ -10,6 +10,7 @@ module.exports = {
   theme: {
 
     minWidth: {
+      s: "1rem",
       l: "7rem"
     },
     minHeight: {

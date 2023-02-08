@@ -1,7 +1,7 @@
+import { Button } from '@/components/common/Button';
 import Layout from '@/components/layout';
 import { SearchBar } from '@/components/mainPage/SearchBar';
 import { Select } from '@/components/mainPage/Select';
-import { countryDetailsType } from '@/types/countryTypes';
 import { dataPropsType, dataType } from '@/types/mainTypes';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -13,10 +13,10 @@ const Loading = dynamic(() => import('@/components/common/Loading'));
 
 export default function Home({ data: countries }: dataPropsType) {
   const [filterCountries, setFilterCountries] = useState<dataType[]>();
-  // console.log({ countries });
+  const [arrayAmount, setArrayAmount] = useState(16);
   const [filterOn, SetFilterOn] = useState(false);
   const [searchWord, setSearchWord] = useState<string>('');
-  const [searchResult, setSearchResult] = useState<countryDetailsType>();
+  const [sliceArray, setSliceArray] = useState<dataType[]>();
   const router = useRouter();
   //region select
   const [selected, setSelected] = useState({ name: 'Filter by Region' });
@@ -49,25 +49,31 @@ export default function Home({ data: countries }: dataPropsType) {
 
   //search throw all receive data
   useEffect(() => {
-    const searchWordArray = searchWord.toLowerCase().split('');
-    const searchResult = countries.filter((item) => {
-      const countryNameArray = item.name.common.toLowerCase().split('');
-      return searchWordArray.every((searchLetter) =>
-        countryNameArray.includes(searchLetter)
-      );
-    });
-    setFilterCountries(searchResult);
-    SetFilterOn(true);
+    if (searchWord.length != 0) {
+      const searchWordArray = searchWord.toLowerCase().split('');
+      const searchResult = countries.filter((item) => {
+        const countryNameArray = item.name.common.toLowerCase().split('');
+        return searchWordArray.every((searchLetter) =>
+          countryNameArray.includes(searchLetter)
+        );
+      });
+      setFilterCountries(searchResult);
+      SetFilterOn(true);
+    }
   }, [searchWord]);
   //sort
-  // useEffect(() => {
-  //   const numAscending = [...countries].sort(
-  //     (a, b) => a.name.common > b.name.common
-  //   );
-  //   console.log('numAscending', numAscending);
+  useEffect(() => {
+    setSliceArray(countries.slice(0, 40));
+  }, []);
 
-  // }, []);
-
+  //pagination
+  const pagination = (pageNumber: number) => {
+    // const amount = arrayAmount + 40;
+    // setArrayAmount(amount);
+    setSliceArray(countries.slice((pageNumber - 1) * 40, pageNumber * 40));
+  };
+  console.log(filterOn);
+  const paginationButton = [7, 6, 5, 4, 3, 2, 1];
   return (
     <>
       <Head>
@@ -102,7 +108,7 @@ export default function Home({ data: countries }: dataPropsType) {
                 })
               )
             ) : (
-              countries?.map((item, index) => {
+              sliceArray?.map((item, index) => {
                 return (
                   <Card
                     region={item?.region}
@@ -117,6 +123,19 @@ export default function Home({ data: countries }: dataPropsType) {
               })
             )}
           </div>
+          {!filterOn && (
+            <div className='flex justify-center flex-wrap gap-2 mt-10'>
+              {paginationButton.map((item) => (
+                <Button
+                  style={'min-w-l font-bold'}
+                  onClick={() => pagination(item)}
+                  key={item}
+                >
+                  {item}
+                </Button>
+              ))}
+            </div>
+          )}
         </Layout>
       </main>
     </>
